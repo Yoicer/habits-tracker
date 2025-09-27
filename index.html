@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrador de Hábitos</title>
+    <meta name="description" content="Aplicación para registrar y seguir tus hábitos diarios, semanales y mensuales">
+    <meta name="theme-color" content="#4CAF50">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Mis Hábitos">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Icons -->
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/icon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="icons/icon-16x16.png">
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+    
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-check-circle"></i> Mis Hábitos</h1>
+            <p class="subtitle">Construye mejores hábitos día a día</p>
+        </header>
+
+        <div class="add-habit-section">
+            <button id="add-habit-btn" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Agregar Hábito
+            </button>
+        </div>
+
+        <!-- Modal para agregar/editar hábito -->
+        <div id="habit-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 id="modal-title">Agregar Nuevo Hábito</h2>
+                    <span class="close">&times;</span>
+                </div>
+                <form id="habit-form">
+                    <div class="form-group">
+                        <label for="habit-name">Nombre del hábito:</label>
+                        <input type="text" id="habit-name" name="habitName" required 
+                               placeholder="Ej: Hacer ejercicio, Leer 30 minutos...">
+                    </div>
+                    <div class="form-group">
+                        <label for="habit-frequency">Frecuencia:</label>
+                        <select id="habit-frequency" name="frequency" required>
+                            <option value="">Selecciona una frecuencia</option>
+                            <option value="diaria">Diaria</option>
+                            <option value="semanal">Semanal</option>
+                            <option value="mensual">Mensual</option>
+                        </select>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="cancel-btn">Cancelar</button>
+                        <button type="submit" class="btn btn-primary" id="save-btn">Guardar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Lista de hábitos -->
+        <div class="habits-container">
+            <div id="habits-list" class="habits-grid">
+                <!-- Los hábitos se cargarán aquí dinámicamente -->
+            </div>
+            <div id="no-habits" class="no-habits">
+                <i class="fas fa-seedling"></i>
+                <h3>¡Comienza tu journey!</h3>
+                <p>No tienes hábitos registrados aún. Agrega tu primer hábito para comenzar.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer con información técnica -->
+    <footer style="text-align: center; padding: 20px; color: rgba(255,255,255,0.7);">
+        <p>
+            <a href="pwa-status.html" style="color: rgba(255,255,255,0.8); text-decoration: none;">
+                🔧 Estado PWA
+            </a>
+            |
+            <a href="generate-icons.html" style="color: rgba(255,255,255,0.8); text-decoration: none;">
+                🎨 Generar Iconos
+            </a>
+            |
+            <span id="pwa-indicator">📱 PWA Ready</span>
+        </p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

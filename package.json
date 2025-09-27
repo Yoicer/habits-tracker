@@ -1,0 +1,24 @@
+{
+  "name": "mis-habitos-pwa",
+  "version": "1.0.0",
+  "description": "Progressive Web App para registrar y seguir hábitos diarios, semanales y mensuales",
+  "main": "index.html",
+  "scripts": {
+    "dev": "firebase serve",
+    "build": "echo 'No build step required'",
+    "deploy": "firebase deploy",
+    "deploy:hosting": "firebase deploy --only hosting"
+  },
+  "keywords": [
+    "habits",
+    "pwa",
+    "productivity",
+    "lifestyle",
+    "firebase"
+  ],
+  "author": "Tu Nombre",
+  "license": "MIT",
+  "devDependencies": {
+    "firebase-tools": "^12.0.0"
+  }
+}
