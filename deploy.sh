@@ -49,7 +49,21 @@ else
 fi
 
 # Desplegar a Firebase
-echo "🚀 Desplegando a Firebase Hosting..."
+echo "🚀 Desplegando versión integrada a Firebase Hosting..."
+
+# Crear backup de archivos originales si es necesario
+echo "💾 Creando backup temporal..."
+cp index.html index.html.backup
+
+# Verificar que la solución integrada esté lista
+if [[ -f "integrated-fix.js" ]]; then
+    echo "✅ Solución integrada encontrada"
+else
+    echo "❌ integrated-fix.js no encontrado"
+    exit 1
+fi
+
+# Ejecutar deploy
 firebase deploy --only hosting
 
 echo "✅ ¡Despliegue completado!"

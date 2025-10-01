@@ -1,0 +1,355 @@
+/* 🎨 SISTEMA DE TEMAS Y DISEÑO MODERNO */
+
+/* Variables CSS para temas */
+:root {
+    /* Tema Claro (Default) */
+    --bg-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --bg-secondary: rgba(255, 255, 255, 0.95);
+    --bg-card: rgba(255, 255, 255, 0.9);
+    --text-primary: #333;
+    --text-secondary: #666;
+    --text-light: rgba(255, 255, 255, 0.9);
+    --border-color: #e0e0e0;
+    --shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    --accent-color: #4CAF50;
+    --accent-hover: #45a049;
+    --danger-color: #f44336;
+    --warning-color: #FF9800;
+    --info-color: #2196F3;
+}
+
+/* Tema Oscuro */
+[data-theme="dark"] {
+    --bg-primary: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    --bg-secondary: rgba(30, 30, 50, 0.95);
+    --bg-card: rgba(40, 40, 60, 0.9);
+    --text-primary: #e0e0e0;
+    --text-secondary: #b0b0b0;
+    --text-light: rgba(255, 255, 255, 0.8);
+    --border-color: #444;
+    --shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    --accent-color: #66BB6A;
+    --accent-hover: #5CB660;
+    --danger-color: #EF5350;
+    --warning-color: #FFA726;
+    --info-color: #42A5F5;
+}
+
+/* Tema Minimalista */
+[data-theme="minimal"] {
+    --bg-primary: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    --bg-secondary: rgba(255, 255, 255, 0.98);
+    --bg-card: #ffffff;
+    --text-primary: #2c3e50;
+    --text-secondary: #7f8c8d;
+    --text-light: #34495e;
+    --border-color: #ecf0f1;
+    --shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+    --accent-color: #3498db;
+    --accent-hover: #2980b9;
+    --danger-color: #e74c3c;
+    --warning-color: #f39c12;
+    --info-color: #3498db;
+}
+
+/* Aplicar variables a elementos existentes */
+body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    transition: all 0.3s ease;
+}
+
+.container {
+    transition: all 0.3s ease;
+}
+
+/* Botones modernos redondeados */
+.btn {
+    border-radius: 25px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.btn:hover::before {
+    left: 100%;
+}
+
+.btn:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.btn:active {
+    transform: translateY(-1px) scale(0.98);
+}
+
+/* Cards modernos */
+.habit-card, .progress-dashboard {
+    background: var(--bg-card);
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--border-color);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.habit-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* Selector de temas */
+.theme-selector {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
+    background: var(--bg-card);
+    border-radius: 50px;
+    padding: 8px;
+    box-shadow: var(--shadow);
+    display: flex;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+.theme-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+}
+
+.theme-btn.light {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.theme-btn.dark {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    color: #e0e0e0;
+}
+
+.theme-btn.minimal {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    color: #2c3e50;
+}
+
+.theme-btn.active {
+    transform: scale(1.1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.theme-btn:hover {
+    transform: scale(1.05);
+}
+
+/* Animaciones suaves */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+/* Aplicar animaciones */
+.habit-card {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.stat-card {
+    animation: slideInRight 0.6s ease-out;
+}
+
+.btn:hover {
+    animation: pulse 0.6s ease-in-out;
+}
+
+/* Efectos de glassmorphism */
+.glass-effect {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+/* Modal moderno */
+.modal-content {
+    background: var(--bg-card);
+    border-radius: 25px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--border-color);
+    backdrop-filter: blur(20px);
+}
+
+/* Inputs modernos */
+input, select, textarea {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border: 2px solid var(--border-color);
+    border-radius: 15px;
+    padding: 12px 16px;
+    transition: all 0.3s ease;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+    outline: none;
+    transform: scale(1.02);
+}
+
+/* Scrollbar personalizado */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--accent-color);
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-hover);
+}
+
+/* Efectos de hover mejorados */
+.interactive {
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.interactive:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.1);
+}
+
+/* Loading states */
+.loading {
+    position: relative;
+    overflow: hidden;
+}
+
+.loading::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    animation: loading-shimmer 1.5s infinite;
+}
+
+@keyframes loading-shimmer {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+/* Responsive mejorado */
+@media (max-width: 768px) {
+    .theme-selector {
+        top: 10px;
+        left: 10px;
+        padding: 6px;
+    }
+    
+    .theme-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 1rem;
+    }
+    
+    .btn {
+        border-radius: 20px;
+        padding: 10px 20px;
+    }
+    
+    .habit-card, .modal-content {
+        border-radius: 15px;
+    }
+}
+
+/* Estados de micro-interacciones */
+.success-state {
+    animation: success-bounce 0.6s ease-out;
+}
+
+.error-state {
+    animation: shake 0.5s ease-out;
+}
+
+@keyframes success-bounce {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+/* Transiciones de página */
+.page-transition {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s ease-out;
+}
+
+.page-transition.loaded {
+    opacity: 1;
+    transform: translateY(0);
+}
