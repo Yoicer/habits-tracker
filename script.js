@@ -2,8 +2,39 @@ class HabitTracker {
     constructor() {
         this.habits = this.loadHabits();
         this.editingHabitId = null;
+        this.progressDashboard = null;
+        
         this.initializeEventListeners();
         this.renderHabits();
+        // El dashboard se inicializa después en el DOM ready
+    }
+
+    // Inicializar dashboard de progreso
+    initializeProgressDashboard() {
+        // Esperar a que ProgressDashboard esté disponible
+        if (window.ProgressDashboard) {
+            this.progressDashboard = new ProgressDashboard();
+            console.log('📊 Dashboard de progreso inicializado exitosamente');
+        } else {
+            // Reintentar después de un breve delay
+            setTimeout(() => {
+                if (window.ProgressDashboard) {
+                    this.progressDashboard = new ProgressDashboard();
+                    console.log('📊 Dashboard de progreso inicializado (reintento exitoso)');
+                } else {
+                    console.error('❌ ProgressDashboard no disponible después del reintento');
+                    // Intentar una vez más con un delay mayor
+                    setTimeout(() => {
+                        if (window.ProgressDashboard) {
+                            this.progressDashboard = new ProgressDashboard();
+                            console.log('📊 Dashboard de progreso inicializado (segundo reintento exitoso)');
+                        } else {
+                            console.error('❌ Error crítico: ProgressDashboard no se pudo cargar');
+                        }
+                    }, 500);
+                }
+            }, 200);
+        }
     }
 
     // Inicializar event listeners
@@ -14,18 +45,30 @@ class HabitTracker {
         const closeBtn = document.querySelector('.close');
         const cancelBtn = document.getElementById('cancel-btn');
         const form = document.getElementById('habit-form');
+        const progressBtn = document.getElementById('progress-dashboard-btn');
 
-        addBtn.addEventListener('click', () => this.openModal());
-        closeBtn.addEventListener('click', () => this.closeModal());
-        cancelBtn.addEventListener('click', () => this.closeModal());
-        form.addEventListener('submit', (e) => this.handleFormSubmit(e));
+        if (addBtn) addBtn.addEventListener('click', () => this.openModal());
+        if (closeBtn) closeBtn.addEventListener('click', () => this.closeModal());
+        if (cancelBtn) cancelBtn.addEventListener('click', () => this.closeModal());
+        if (form) form.addEventListener('submit', (e) => this.handleFormSubmit(e));
+
+        // Dashboard de progreso
+        if (progressBtn) {
+            progressBtn.addEventListener('click', () => {
+                this.toggleProgressDashboard();
+            });
+        } else {
+            console.error('❌ Botón de progreso no encontrado en el DOM');
+        }
 
         // Cerrar modal al hacer click fuera
-        window.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                this.closeModal();
-            }
-        });
+        if (modal) {
+            window.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    this.closeModal();
+                }
+            });
+        }
     }
 
     // Generar ID único
@@ -74,6 +117,78 @@ class HabitTracker {
         this.editingHabitId = null;
     }
 
+    // Alternar dashboard de progreso
+    toggleProgressDashboard() {
+        const habitsContainer = document.querySelector('.habits-container');
+        const progressSection = document.getElementById('progress-section');
+        const progressBtn = document.getElementById('progress-dashboard-btn');
+        
+        console.log('🔄 Alternando dashboard de progreso...');
+        console.log('📊 Número de hábitos:', this.habits?.length || 0);
+        
+        if (progressSection.style.display === 'none' || progressSection.style.display === '') {
+            // Mostrar dashboard de progreso
+            habitsContainer.style.display = 'none';
+            progressSection.style.display = 'block';
+            progressBtn.innerHTML = '<i class="fas fa-list"></i> Ver Hábitos';
+            progressBtn.classList.add('active');
+            
+            // Asegurar que el dashboard esté inicializado
+            if (!this.progressDashboard && window.ProgressDashboard) {
+                console.log('📊 Inicializando dashboard sobre la marcha...');
+                this.progressDashboard = new ProgressDashboard();
+            }
+            
+            // Verificar si hay hábitos para mostrar
+            if (this.habits.length === 0) {
+                progressSection.innerHTML = `
+                    <div class="progress-dashboard">
+                        <h2 class="dashboard-title">📊 Mi Progreso</h2>
+                        <div style="text-align: center; padding: 50px; color: #666;">
+                            <i class="fas fa-chart-bar" style="font-size: 4rem; margin-bottom: 20px; opacity: 0.3;"></i>
+                            <h3>No hay datos para mostrar</h3>
+                            <p>Agrega algunos hábitos y marca completaciones para ver tu progreso aquí.</p>
+                            <button onclick="window.habitTracker.toggleProgressDashboard()" class="btn btn-primary" style="margin-top: 20px;">
+                                <i class="fas fa-plus"></i> Agregar Primer Hábito
+                            </button>
+                        </div>
+                    </div>
+                `;
+                console.log('📋 Mostrando mensaje de no datos');
+                return;
+            }
+            
+            // Renderizar el dashboard
+            if (this.progressDashboard) {
+                console.log('✅ Renderizando dashboard con', this.habits.length, 'hábitos...');
+                this.progressDashboard.render();
+            } else {
+                console.error('❌ Dashboard de progreso no está disponible');
+                // Mostrar un mensaje de error al usuario
+                progressSection.innerHTML = `
+                    <div class="progress-dashboard">
+                        <h2 class="dashboard-title">📊 Mi Progreso</h2>
+                        <div style="text-align: center; padding: 50px; color: #666;">
+                            <i class="fas fa-exclamation-triangle" style="font-size: 3rem; margin-bottom: 20px; color: #ff6b6b;"></i>
+                            <h3>Error al cargar el dashboard</h3>
+                            <p>El módulo de progreso no se pudo cargar. Recarga la página para intentar de nuevo.</p>
+                            <button onclick="location.reload()" class="btn btn-primary" style="margin-top: 20px;">
+                                <i class="fas fa-refresh"></i> Recargar Página
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+        } else {
+            // Mostrar lista de hábitos
+            habitsContainer.style.display = 'block';
+            progressSection.style.display = 'none';
+            progressBtn.innerHTML = '<i class="fas fa-chart-bar"></i> Ver Progreso';
+            progressBtn.classList.remove('active');
+            console.log('📋 Mostrando lista de hábitos');
+        }
+    }
+
     // Manejar envío del formulario
     handleFormSubmit(e) {
         e.preventDefault();
@@ -111,6 +226,7 @@ class HabitTracker {
         this.habits.push(habit);
         this.saveHabits();
         this.renderHabits();
+        this.updateProgressDashboard();
     }
 
     // Editar hábito
@@ -121,6 +237,7 @@ class HabitTracker {
             this.habits[habitIndex].frequency = frequency;
             this.saveHabits();
             this.renderHabits();
+            this.updateProgressDashboard();
         }
     }
 
@@ -130,6 +247,7 @@ class HabitTracker {
             this.habits = this.habits.filter(h => h.id !== id);
             this.saveHabits();
             this.renderHabits();
+            this.updateProgressDashboard();
         }
     }
 
@@ -156,6 +274,7 @@ class HabitTracker {
         
         this.saveHabits();
         this.renderHabits();
+        this.updateProgressDashboard();
 
         // Animación de completado
         if (!isAlreadyCompleted) {
@@ -309,11 +428,49 @@ class HabitTracker {
             `;
         }).join('');
     }
+
+    // Actualizar dashboard de progreso si está visible
+    updateProgressDashboard() {
+        const progressSection = document.getElementById('progress-section');
+        if (progressSection && progressSection.style.display !== 'none' && this.progressDashboard) {
+            this.progressDashboard.render();
+        }
+    }
 }
 
 // Inicializar la aplicación cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('🌟 DOM cargado, inicializando aplicación...');
+    
+    // Verificar que los elementos necesarios existen
+    const progressBtn = document.getElementById('progress-dashboard-btn');
+    const progressSection = document.getElementById('progress-section');
+    
+    if (!progressBtn) {
+        console.error('❌ Botón de progreso no encontrado');
+        return;
+    }
+    
+    if (!progressSection) {
+        console.error('❌ Sección de progreso no encontrada');
+        return;
+    }
+    
+    console.log('✅ Elementos del DOM verificados');
+    console.log('📊 ProgressDashboard disponible:', !!window.ProgressDashboard);
+    
     window.habitTracker = new HabitTracker();
+    console.log('🏠 HabitTracker inicializado');
+    
+    // Inicializar el dashboard de progreso después de que todo esté cargado
+    setTimeout(() => {
+        console.log('⏰ Inicializando dashboard después del delay...');
+        if (window.habitTracker) {
+            window.habitTracker.initializeProgressDashboard();
+        } else {
+            console.error('❌ habitTracker no está disponible para inicializar dashboard');
+        }
+    }, 150);
     
     // Registrar Service Worker para PWA
     if ('serviceWorker' in navigator) {

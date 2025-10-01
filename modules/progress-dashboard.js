@@ -233,23 +233,19 @@ class ProgressDashboard {
     // Renderizar todo el dashboard
     render() {
         // Buscar la sección de progreso en el DOM
-        const progressSection = document.querySelector('#progress-section .progress-dashboard');
+        const progressSectionContainer = document.getElementById('progress-section');
         
-        if (progressSection) {
-            // Actualizar contenido existente
-            progressSection.innerHTML = this.createDashboardHTML().match(/<div class="progress-dashboard">([\s\S]*)<\/div>/)[1];
+        if (progressSectionContainer) {
+            // Crear el dashboard completo
+            progressSectionContainer.innerHTML = this.createDashboardHTML();
+            
+            const stats = this.calculateStats();
+            this.renderStats(stats);
+            this.renderProgressBars();
+            this.renderStreaks();
         } else {
-            // Crear el dashboard en la sección de progreso
-            const progressSectionContainer = document.getElementById('progress-section');
-            if (progressSectionContainer) {
-                progressSectionContainer.innerHTML = this.createDashboardHTML();
-            }
+            console.error('❌ Sección de progreso no encontrada');
         }
-
-        const stats = this.calculateStats();
-        this.renderStats(stats);
-        this.renderProgressBars();
-        this.renderStreaks();
     }
 
     // Método para ocultar/mostrar dashboard

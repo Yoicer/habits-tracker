@@ -19,6 +19,7 @@
     <link rel="apple-touch-icon" href="icons/icon-192x192.png">
     
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="modules/progress-styles.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
@@ -31,6 +32,9 @@
         <div class="add-habit-section">
             <button id="add-habit-btn" class="btn btn-primary">
                 <i class="fas fa-plus"></i> Agregar Hábito
+            </button>
+            <button id="progress-dashboard-btn" class="btn btn-secondary">
+                <i class="fas fa-chart-bar"></i> Ver Progreso
             </button>
         </div>
 
@@ -75,6 +79,11 @@
                 <p>No tienes hábitos registrados aún. Agrega tu primer hábito para comenzar.</p>
             </div>
         </div>
+
+        <!-- Sección de Progreso -->
+        <div id="progress-section" class="progress-container" style="display: none;">
+            <!-- El dashboard de progreso se renderizará aquí -->
+        </div>
     </div>
 
     <!-- Footer con información técnica -->
@@ -93,5 +102,13 @@
     </footer>
 
     <script src="script.js"></script>
+    <script src="modules/progress-dashboard.js"></script>
+    <!-- Scripts de debug/prueba (comentados para producción)
+    <script src="debug-progress-button.js"></script>
+    <script src="test-data-helper.js"></script>
+    <script src="quick-test.js"></script>
+    <script src="debug-progress.js"></script>
+    <script src="test-dashboard-complete.js"></script>
+    -->
 </body>
 </html>
